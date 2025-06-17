@@ -1,0 +1,29 @@
+# https://huggingface.co/docs/accelerate/en/package_reference/accelerator
+
+compute_environment: LOCAL_MACHINE
+debug: false
+distributed_type: MULTI_GPU
+# fsdp_config:
+#   fsdp_auto_wrap_policy: SIZE_BASED_WRAP
+#   fsdp_min_num_params: 10000
+#   fsdp_backward_prefetch: BACKWARD_PRE
+#   fsdp_cpu_ram_efficient_loading: true
+#   fsdp_forward_prefetch: false
+#   fsdp_offload_params: true
+#   fsdp_sharding_strategy: 2
+#   fsdp_state_dict_type: SHARDED_STATE_DICT
+#   fsdp_sync_module_states: true
+#   fsdp_use_orig_params: true
+downcast_bf16: "no"
+gpu_ids: 0,1
+machine_rank: 0
+main_training_function: main
+mixed_precision: no
+num_machines: 1
+num_processes: 2
+rdzv_backend: static
+same_network: true
+tpu_env: []
+tpu_use_cluster: false
+tpu_use_sudo: false
+use_cpu: false

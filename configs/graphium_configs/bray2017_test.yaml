@@ -1,0 +1,75 @@
+constants:
+  name: &name test_bray2017
+  seed: &seed 42
+  raise_train_error: true   # Whether the code should raise an error if it crashes during training
+
+accelerator:
+  type: gpu  # cpu or ipu or gpu
+  config_override:
+    datamodule:
+      args:
+        batch_size_training: 64
+        batch_size_inference: 256
+    trainer:
+      trainer:
+        precision: 32
+
+datamodule:
+  module_type: "MultitaskFromSmilesDataModule"
+  # module_type: "FakeDataModule"  # Option to use generated data
+  args: # Matches that in the test_multitask_datamodule.py case.
+    task_specific_args:   # To be replaced by a new class "DatasetParams"
+      bray2017:
+        df: null
+        df_path:  /gscratch/aims/mingyulu/cell_painting/label_data/bray_2017/split_data/datasplit1-test.csv
+        smiles_col: "SMILES"
+        label_cols: PLATE_ID*
+        idx_col: SAMPLE_KEY
+        # sample_size: 1000 # use sample_size for test
+        task_level: "graph"
+        # split_names: [train, val, test_seen]
+        split_val: 0.01
+        split_test: 0.01
+        label_normalization:
+          normalize_val_test: True
+          method: "normal"
+        epoch_sampling_fraction: 1.0
+
+    prepare_dict_or_graph: pyg:graph
+    featurization_n_jobs: 30
+    featurization_progress: True
+    featurization_backend: "loky"
+    processed_graph_data_path: /gscratch/aims/datasets/graphium/data/featurized_data
+    dataloading_from: disk
+    num_workers: 40 # -1 to use all
+    persistent_workers: False # if use persistent worker at the start of each epoch.
+    # Using persistent_workers false might make the start of each epoch very long.
+    featurization:
+    # OGB: ['atomic_num', 'degree', 'possible_formal_charge', 'possible_numH' (total-valence),
+    # 'possible_number_radical_e', 'possible_is_aromatic', 'possible_is_in_ring',
+    # 'num_chiral_centers (not included yet)']
+      atom_property_list_onehot: [atomic-number, group, period, total-valence]
+      atom_property_list_float: [degree, formal-charge, radical-electron, aromatic, in-ring]
+      # OGB: ['possible_bond_type', 'possible_bond_stereo', 'possible_is_in_ring']
+      edge_property_list: [bond-type-onehot, stereo, in-ring]
+      add_self_loop: False
+      explicit_H: False # if H is included
+      use_bonds_weights: False
+      pos_encoding_as_features: # encoder dropout 0.18
+        pos_types:
+          lap_eigvec:
+            pos_level: node
+            pos_type: laplacian_eigvec
+            num_pos: 8
+            normalization: "none" # nomrlization already applied on the eigen vectors
+            disconnected_comp: True # if eigen values/vector for disconnected graph are included
+          lap_eigval:
+            pos_level: node
+            pos_type: laplacian_eigval
+            num_pos: 8
+            normalization: "none" # nomrlization already applied on the eigen vectors
+            disconnected_comp: True # if eigen values/vector for disconnected graph are included
+          rw_pos: # use same name as pe_encoder
+            pos_level: node
+            pos_type: rw_return_probs
+            ksteps: 16
