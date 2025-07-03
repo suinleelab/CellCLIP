@@ -489,11 +489,6 @@ def load_model(
         config["vision_width"] = vision_width
         config["use_bias"] = True if loss_type in ["s2l", "sigclip"] else False
         model = CellClip(**config)
-    elif model_type == "mil_cell_clip":
-        config = ModelConfig.mil_cell_clip_config
-        config["vision_width"] = vision_width
-        config["use_bias"] = True if loss_type in ["s2l", "sigclip"] else False
-        model = MilCellClip(**config)
     elif model_type == "cell_clip_mae":
         model = CellCLIP_MAE(**ModelConfig.cell_clip_mae_config)
     elif model_type == "pubmed_clip":
