@@ -508,7 +508,7 @@ def main(args):
             (images, extra_tokens), treatments = batch
             m = model.module if accelerator.use_distributed else model
 
-            if args.model_type == "mil_cell_clip":
+            if args.model_type == "cell_clip":
                 images = m.encode_mil(images)
 
             if args.model_type == "clip_channelvit":
@@ -674,7 +674,7 @@ def main(args):
 
                             (images, extra_tokens), treatments = batch
                             with accelerator.autocast():
-                                if args.model_type == "mil_cell_clip":
+                                if args.model_type == "cell_clip":
                                     images = m.encode_mil(images)
 
                                 if args.model_type in [
