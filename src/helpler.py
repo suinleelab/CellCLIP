@@ -7,6 +7,7 @@ import os
 import sys
 from functools import partial
 from multiprocessing import Pool
+from safetensors.torch import load_file as safe_load_file
 
 import numpy as np
 import torch
@@ -15,8 +16,7 @@ from fvcore.nn import FlopCountAnalysis, parameter_count_table
 
 from configs.model_config import ModelConfig
 from src.clip.model import (
-    BERT_CLIP,
-    CellClip,
+    CellCLIP,
     CellCLIP_MAE,
     CLIP_ChannelViT,
     CLIP_ResNet,
@@ -24,10 +24,7 @@ from src.clip.model import (
     Cloome_MPNN,
     Cloome_old,
     Cloome_phenom1,
-    MilCellClip,
     Molphenix,
-    Pubmed_CLIP,
-    Pubmed_CLIP_phenom1,
 )
 
 
@@ -175,10 +172,8 @@ def load(model_path, device, model_type, input_dim=768, loss_type="clip"):
         "old_cloome": (Cloome_old, ModelConfig.old_cloome_config),
         "cloome": (Cloome, ModelConfig.cloome_config),
         "cloome_mpnn": (Cloome_MPNN, ModelConfig.cloome_mpnn_config),
-        "bert_clip": (BERT_CLIP, ModelConfig.bert_clip_config),
         "clip_resnet": (CLIP_ResNet, ModelConfig.clip_resnet_config),
         "clip_channelvit": (CLIP_ChannelViT, ModelConfig.clip_channelvit_config),
-        "pubmed_clip": (Pubmed_CLIP, ModelConfig.pubmed_clip_config),
         "cell_clip_mae": (CellCLIP_MAE, ModelConfig.cell_clip_mae_config),
         "cloome_phenom1": (Cloome_phenom1, ModelConfig.cloome_phenom1_config),
         "molphenix": (Molphenix, ModelConfig.molphenix_config),
@@ -191,21 +186,8 @@ def load(model_path, device, model_type, input_dim=768, loss_type="clip"):
         model_config["vision_width"] = input_dim
         model_config["use_bias"] = True if loss_type in ["sigclip", "s2l"] else False
 
-        model = CellClip(**model_config)
+        model = CellCLIP(**model_config)
 
-    elif model_type == "mil_cell_clip":
-
-        model_config = ModelConfig.mil_cell_clip_config.copy()
-        model_config["vision_width"] = input_dim
-        model_config["use_bias"] = True if loss_type in ["sigclip", "s2l"] else False
-
-        model = MilCellClip(**model_config)
-
-    elif model_type == "pubmed_clip_phenom1":
-
-        model_config = ModelConfig.pubmed_clip_phenom1_config.copy()
-        model_config["vision_width"] = input_dim
-        model = Pubmed_CLIP_phenom1(**model_config)
     else:
         try:
             ModelClass, config = MODEL_CONFIGS[model_type]
@@ -218,7 +200,10 @@ def load(model_path, device, model_type, input_dim=768, loss_type="clip"):
 
     # Load checkpoint
     try:
-        checkpoint = torch.load(model_path, map_location=device)
+        if model_path.endswith(".safetensors"):
+            checkpoint = safe_load_file(model_path, device=device)
+        else:
+            checkpoint = torch.load(model_path, map_location=device)
     except Exception as e:
         raise RuntimeError(f"Failed to load checkpoint from {model_path}: {str(e)}")
 
@@ -228,17 +213,16 @@ def load(model_path, device, model_type, input_dim=768, loss_type="clip"):
             k.replace("module.", ""): v for k, v in checkpoint["state_dict"].items()
         }
     else:
-        state_dict = checkpoint["model"]
+        state_dict = checkpoint["model"] if "model" in checkpoint else checkpoint
 
-    # Convert to float32 if on CPU
-    if str(device) == "cpu":
-        model.float()
-
-    # Load state dict and move to device
     try:
         model.load_state_dict(state_dict)
     except Exception as e:
         raise RuntimeError(f"Failed to load state dict into model: {str(e)}")
+
+    # Convert to float32 if on CPU
+    if str(device) == "cpu":
+        model.float()
 
     model.to(device)
     model.eval()

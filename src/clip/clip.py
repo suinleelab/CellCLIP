@@ -18,8 +18,7 @@ from tqdm import tqdm
 
 from configs.model_config import ModelConfig
 from src.clip.model import (
-    BERT_CLIP,
-    CellClip,
+    CellCLIP,
     CellCLIP_MAE,
     CLIP_ChannelViT,
     CLIP_ResNet,
@@ -27,13 +26,7 @@ from src.clip.model import (
     Cloome_MPNN,
     Cloome_old,
     Cloome_phenom1,
-    Long_CLIP,
-    MilCellClip,
     Molphenix,
-    Pubmed_CLIP,
-    Pubmed_CLIP_phenom1,
-    Pubmed_emb_CLIP,
-    PubmedBERT_CLIP,
     build_model,
 )
 from src.clip.simple_tokenizer import SimpleTokenizer as _Tokenizer
@@ -458,11 +451,6 @@ def load_model(
         model = Cloome(**ModelConfig.cloome_config)
     elif model_type == "cloome_old":
         model = Cloome_old(**ModelConfig.old_cloome_config)
-    elif model_type == "long_clip":
-        if image_resolution_train == 520:
-            model = Long_CLIP(**ModelConfig.long_clip_config_520)
-        else:
-            model = Long_CLIP(**ModelConfig.long_clip_config)
     elif model_type == "clip":
         model, _ = load(pretrained, name, device, jit, download_root)
 
@@ -488,27 +476,15 @@ def load_model(
         config = ModelConfig.cell_clip_config
         config["vision_width"] = vision_width
         config["use_bias"] = True if loss_type in ["s2l", "sigclip"] else False
-        model = CellClip(**config)
+        model = CellCLIP(**config)
     elif model_type == "cell_clip_mae":
         model = CellCLIP_MAE(**ModelConfig.cell_clip_mae_config)
-    elif model_type == "pubmed_clip":
-        model = Pubmed_CLIP(**ModelConfig.pubmed_clip_config)
-    elif model_type == "pubmedbert_clip":
-        model = PubmedBERT_CLIP(**ModelConfig.pubmedbert_clip_config)
-    elif model_type == "bert_clip":
-        model = BERT_CLIP(**ModelConfig.bert_clip_config)
-    elif model_type == "pubmed_emb_clip":
-        model = Pubmed_emb_CLIP(**ModelConfig.pubmed_emb_clip_config)
     elif model_type == "molphenix":
         model = Molphenix(**ModelConfig.molphenix_config)
     elif model_type == "cloome_phenom1":
         model = Cloome_phenom1(**ModelConfig.cloome_phenom1_config)
     elif model_type == "cloome_mpnn":
         model = Cloome_MPNN(**ModelConfig.cloome_mpnn_config)
-    elif model_type == "pubmed_clip_phenom1":
-        config = ModelConfig.pubmed_clip_phenom1_config
-        config["vision_width"] = vision_width
-        model = Pubmed_CLIP_phenom1(**config)
 
     return model
 

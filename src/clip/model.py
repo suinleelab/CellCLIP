@@ -8,6 +8,7 @@ import os
 from collections import OrderedDict
 from functools import partial
 from typing import List, Tuple, Union
+from huggingface_hub import PyTorchModelHubMixin
 
 import numpy as np
 import torch
@@ -880,80 +881,6 @@ class CLIP(nn.Module):
         return image_features, text_features, self.logit_scale
 
 
-class BERT_CLIP(nn.Module):
-    """CLIP with bert-base-cased [3] as text encoder"""
-
-    def __init__(
-        self,
-        embed_dim: int,
-        # vision
-        image_resolution: int,
-        vision_layers: List[int],
-        vision_width: int,
-        input_channels: int,
-        # text
-        context_length: int,
-    ):
-        super().__init__()
-
-        self.context_length = context_length
-        self.visual = ResNet(
-            layers=vision_layers, output_dim=embed_dim, input_shape=input_channels
-        )
-        # load pre-trained text-encoder
-        self.text = BertModel.from_pretrained("bert-base-cased")
-        self.text_proj = nn.Linear(768, 512)
-
-        self.logit_scale = nn.Parameter(torch.ones([]) * np.log(1 / 0.07))
-
-        self.initialize_parameters()
-
-    def initialize_parameters(self):
-
-        if isinstance(self.visual, ModifiedResNet):
-            if self.visual.attnpool is not None:
-                std = self.visual.attnpool.c_proj.in_features ** -0.5
-                nn.init.normal_(self.visual.attnpool.q_proj.weight, std=std)
-                nn.init.normal_(self.visual.attnpool.k_proj.weight, std=std)
-                nn.init.normal_(self.visual.attnpool.v_proj.weight, std=std)
-                nn.init.normal_(self.visual.attnpool.c_proj.weight, std=std)
-
-            for resnet_block in [
-                self.visual.layer1,
-                self.visual.layer2,
-                self.visual.layer3,
-                self.visual.layer4,
-            ]:
-                for name, param in resnet_block.named_parameters():
-                    if name.endswith("bn3.weight"):
-                        nn.init.zeros_(param)
-
-    @property
-    def dtype(self):
-        return self.visual.conv1.weight.dtype
-
-    def encode_image(self, image):
-        return self.visual(image.type(self.dtype))
-
-    def encode_text(self, text):
-        out = self.text(
-            input_ids=text["input_ids"], attention_mask=text["attention_mask"]
-        ).pooler_output.type(self.dtype)
-        out = self.text_proj(out)
-
-        return out
-
-    def forward(self, image, text):
-
-        image_features = self.encode_image(image)
-        text_features = self.encode_text(text)
-
-        image_features = image_features / image_features.norm(dim=-1, keepdim=True)
-        text_features = text_features / text_features.norm(dim=-1, keepdim=True)
-
-        return image_features, text_features, self.logit_scale
-
-
 class Molphenix(nn.Module):
     """Molphenix with MAE (Openphenom-S) and MPNN++"""
 
@@ -1069,7 +996,7 @@ class CellCLIP_MAE(nn.Module):
         return image_features, text_features, self.logit_scale
 
 
-class CellCLIP(nn.Module):
+class CellCLIP(nn.Module, PyTorchModelHubMixin):
     """Multi-instance CellCLIP"""
 
     def __init__(

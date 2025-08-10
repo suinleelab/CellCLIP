@@ -105,7 +105,7 @@ def get_features(test_loader, model, device, model_type):
             (images, extra_tokens), treatments = batch
             extra_tokens = {k: v.to(device) for k, v in extra_tokens.items()}
 
-            if args.model_type == "mil_cell_clip":
+            if args.model_type == "cell_clip":
                 images = model.encode_mil(images.to(device))
 
             if model_type == "clip_channelvit":
@@ -120,7 +120,6 @@ def get_features(test_loader, model, device, model_type):
                 "clip_channelvit",
                 "cell_clip_mae",
                 "cell_clip",
-                "mil_cell_clip",
             ]:
                 treatments = {k: v.to(device) for k, v in treatments.items()}
                 text_features = model.encode_text(treatments)
@@ -167,16 +166,17 @@ def main(args):
     if args.unique and args.embedding_type is None:
         raise ValueError("Embedding type cannot be None")
 
-    if not args.ckpt_path:
-        checkpoint_path = hf_hub_download(
-            "anasanchezf/cloome", "cloome-retrieval-zero-shot.pt"
-        )
-    else:
-        checkpoint_path = args.ckpt_path
-
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
-    model = load(checkpoint_path, device, args.model_type, args.input_dim, args.loss_type)
+    if args.ckpt_path is None:
+        ckpt_path = hf_hub_download(
+            "suinleelab/CellCLIP",
+            "model.safetensors"
+        )
+    else:
+        ckpt_path = args.ckpt_path
+
+    model = load(ckpt_path, device, args.model_type, args.input_dim, args.loss_type)
 
     sample_index_file = os.path.join(
         args.outdir, args.split_label_dir, "cellpainting-split-test-imgpermol.csv"
@@ -186,16 +186,6 @@ def main(args):
         args.image_resolution_train, args.image_resolution_val, False, "dataset", "crop"
     )
 
-    # configs = DataAugmentationConfig.cloome_config
-    # preprocess_val = CloomeAugmentation(
-    #     n_px_tr=args.image_resolution_train,
-    #     n_px_val=args.image_resolution_val,
-    #     is_train=False,
-    #     normalization_mean=configs["normalization"]["mean"],
-    #     normalization_std=configs["normalization"]["std"],
-    #     normalize="dataset",
-    #     preprocess="crop",
-    # )
     # Load the dataset
     image_directory_path = os.path.join(constants.DATASET_DIR, "bray2017/cellpainting_full")
 
@@ -209,7 +199,6 @@ def main(args):
         "cell_sigclip",
         "cell_clip_mae",
         "clip_channelvit",
-        "mil_cell_clip",
     ]:
         mole_struc = "text"
         molecule_path = os.path.join(
@@ -217,11 +206,11 @@ def main(args):
         )
 
         if args.model_type in [
-            "mil_cell_clip",
+            "cell_clip",
             "bert_clip",
             "clip_channelvit",
             "cell_clip_mae",
-            "cell_clip",
+            "cell_clip"
         ]:
             context_length = 512
         else:
@@ -233,9 +222,6 @@ def main(args):
         molecule_path = os.path.join(
             constants.DATASET_DIR, "bray2017/mol/molphenix_all_384_20_epochs.h5"  #
         )
-    elif args.model_type == "pubmed_emb_clip":
-        mole_struc = "embedding"
-        context_length = 1532
     else:
         molecule_path = os.path.join(
             constants.DATASET_DIR, "bray2017/mol/morgan_chiral_fps_all_1024.hdf5"  #
@@ -266,7 +252,7 @@ def main(args):
     )
     # val_text_features = val_text_features[torch.randperm(val_text_features.size(0))]
 
-    rankings, all_top_samples, all_preds, metrics, logits = get_metrics(
+    _, _, _, metrics, _ = get_metrics(
         val_img_features, val_text_features
     )
     print(metrics)

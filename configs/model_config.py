@@ -4,23 +4,6 @@
 class ModelConfig:
     """Configuration for CLIP model."""
 
-    # cell_clip_config = {
-    #     "embed_dim": 512,
-    #     # vision
-    #     "image_resolution": 224,
-    #     "channels": 5,
-    #     "depth": 12,
-    #     "mlp_ratio": 4,
-    #     "vision_heads": 4,
-    #     "vision_patch_size": 16,
-    #     "hcs": True,
-    #     # text
-    #     "context_length": 77,
-    #     "vocab_size": 49408,
-    #     "transformer_width": 512,
-    #     "transformer_heads": 8,
-    #     "transformer_layers": 12,
-    # }
     clip_resnet_config = {
         "embed_dim": 512,
         # vision
@@ -31,47 +14,6 @@ class ModelConfig:
         "logit_scale": 14.3,
         # text
         "context_length": 77,
-        "vocab_size": 49408,
-        "transformer_width": 512,
-        "transformer_heads": 8,
-        "transformer_layers": 12,
-    }
-
-    # Resnet101
-    long_clip_config = {
-        "embed_dim": 512,
-        # vision
-        "image_resolution": 224,
-        "vision_layers": [
-            3,
-            4,
-            23,
-            3,
-        ],
-        "input_channels": 5,
-        "vision_width": 64,
-        # text
-        "context_length": 248,
-        "vocab_size": 49408,
-        "transformer_width": 512,
-        "transformer_heads": 8,
-        "transformer_layers": 12,
-    }
-
-    long_clip_config_520 = {
-        "embed_dim": 512,
-        # vision
-        "image_resolution": 520,
-        "vision_layers": [
-            3,
-            4,
-            23,
-            3,
-        ],
-        "input_channels": 5,
-        "vision_width": 64,
-        # text
-        "context_length": 248,
         "vocab_size": 49408,
         "transformer_width": 512,
         "transformer_heads": 8,
@@ -108,32 +50,6 @@ class ModelConfig:
         # text
         "context_length": 512,
     }
-    pubmed_emb_clip_config = {
-        "embed_dim": 512,
-        # vision
-        "image_resolution": 224,
-        "vision_layers": [
-            3,
-            4,
-            23,
-            3,
-        ],
-        "input_channels": 5,
-        "vision_width": 64,
-        # text
-        "input_dim": 1536,
-        "n_layers": 4,
-        "hidden_dim": 1024,
-    }
-    pubmed_clip_phenom1_config = {
-        "embed_dim": 512,
-        # vision
-        "vision_width": 1536,  # input dim
-        "vision_heads": 8,
-        "vision_layers": 6,
-        # text
-        "context_length": 256,
-    }
     molphenix_config = {
         "embed_dim": 256,  # latent emb dims
         # vision
@@ -149,16 +65,6 @@ class ModelConfig:
         "vision_heads": 8,
         # text
         "context_length": 256,
-    }
-    mil_cell_clip_config = {
-        "embed_dim": 512,  # latent emb dims
-        # vision
-        "vision_layers": 12,
-        "input_channels": 5,
-        "vision_width": 768,  # vision embedding dims
-        "vision_heads": 8,
-        # text
-        "context_length": 512,
         "pooling": "attention",
     }
     cell_sigclip_config = {
