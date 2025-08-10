@@ -3,9 +3,7 @@
 This repository provides code and instructions to reproduce the results presented in our work on **CellCLIP**. The proposed framework aligns Cell Painting image embeddings with perturbation-level textual descriptions, enabling biologically meaningful representations for downstream retrieval and matching tasks.
 
 ---
-### Update 8/11
-
-## 🔬 Pretrained CellCLIP on Hugging Face
+### Update 8/11 - Pretrained CellCLIP (w DINOv2-giant) on Hugging Face
 
 We now provide a pretrained **CellCLIP** model on Hugging Face:  
 👉 [suinleelab/CellCLIP](https://huggingface.co/suinleelab/CellCLIP)
