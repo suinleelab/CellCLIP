@@ -19,7 +19,7 @@ ckpt_path = hf_hub_download(
 )
 model = load(
     model_path=ckpt_path,
-    device=device,          # e.g., torch.device("cuda") or "cpu"
+    device=device,          
     model_type="cell_clip",
     input_dim=1536,
     loss_type="cwcl"
