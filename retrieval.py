@@ -8,7 +8,6 @@ from huggingface_hub import hf_hub_download
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
-# from configs.data_config import DataAugmentationConfig
 from src import constants
 from src.datasets import CellPainting
 from src.helpler import load
