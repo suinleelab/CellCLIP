@@ -16,13 +16,10 @@ We now provide a pretrained **CellCLIP** model on Hugging Face:
 from huggingface_hub import hf_hub_download
 from src.helper import load  # make sure your helper path is correct
 
-# Download the pretrained checkpoint
 ckpt_path = hf_hub_download(
     repo_id="suinleelab/CellCLIP",
     filename="model.safetensors"
 )
-
-# Load the model
 model = load(
     model_path=ckpt_path,
     device=device,          # e.g., torch.device("cuda") or "cpu"
@@ -30,6 +27,9 @@ model = load(
     input_dim=1536,
     loss_type="cwcl"
 )
+
+```
+
 ---
 
 ### Directory Structure
