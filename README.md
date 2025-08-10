@@ -5,8 +5,7 @@ This repository provides code and instructions to reproduce the results presente
 ---
 ### Update 8/11 - Pretrained CellCLIP (w DINOv2-giant) on Hugging Face
 
-We now provide a pretrained **CellCLIP** model on Hugging Face:  
-👉 [suinleelab/CellCLIP](https://huggingface.co/suinleelab/CellCLIP)
+We now provide a pretrained **CellCLIP** model on Hugging Face:[suinleelab/CellCLIP](https://huggingface.co/suinleelab/CellCLIP)
 
 ### Usage Example
 
