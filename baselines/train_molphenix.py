@@ -27,7 +27,7 @@ import wandb
 from src import constants
 from src.clip.clip import load_model
 from src.clip.methods import clip, cloob, s2l_loss, sigmoid_loss
-from src.helpler import (
+from src.helper import (
     all_gather,
     compute_grad_norm,
     compute_param_norm,

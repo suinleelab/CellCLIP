@@ -11,7 +11,7 @@ import torch
 from PIL import Image
 from tqdm import tqdm
 
-from src.helpler import parallelize
+from src.helper import parallelize
 
 # from training.datasets import CellPainting
 

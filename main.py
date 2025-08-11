@@ -33,7 +33,7 @@ from src.clip.methods import (
     sigmoid_loss,
 )
 from src.datasets import get_cellpainting_dataset
-from src.helpler import (
+from src.helper import (
     all_gather,
     compute_grad_norm,
     compute_param_norm,

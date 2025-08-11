@@ -10,7 +10,7 @@ from torch.utils.data import DataLoader, Dataset
 from tqdm import tqdm
 
 from src import constants
-from src.helpler import load
+from src.helper import load
 
 
 class CellPaintingDataset(Dataset):

@@ -17,7 +17,7 @@ from src import constants
 from src.clip.clip import tokenize
 
 # from src.clip.clip import load_long_clip, load_model
-from src.helpler import compute_model_stats, load
+from src.helper import compute_model_stats, load
 from src.transformations.cloome import CloomeAugmentation
 
 

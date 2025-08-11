@@ -17,7 +17,7 @@ from transformers import (  # CLIPImageProcessor,; CLIPVisionModel,
 )
 
 from src import constants
-from src.helpler import load
+from src.helper import load
 from src.open_phenom.hugginface_mae import MAEModel
 from src.open_phenom.vit_encoder import build_imagenet_baselines
 from src.transformations.cloome import _transform

@@ -14,7 +14,7 @@ from torchvision.transforms import ToTensor
 from tqdm import tqdm
 from training.datasets import CellPainting
 
-from src.helpler import parallelize
+from src.helper import parallelize
 
 # def numpy_to_img(arr, outfile, outdir="."):
 #     img = Image.fromarray(arr)

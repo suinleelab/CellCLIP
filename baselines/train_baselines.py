@@ -15,7 +15,7 @@ from tqdm import tqdm
 import wandb
 from src import constants
 from src.datasets import get_cellpainting_dataset
-from src.helpler import compute_param_norm, get_max_steps, print_args
+from src.helper import compute_param_norm, get_max_steps, print_args
 from src.open_phenom.mae import load_mae
 from src.open_phenom.vit_encoder import ViTClassifier
 from src.scheduler import (

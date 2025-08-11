@@ -11,7 +11,7 @@ from tqdm import tqdm
 # from configs.data_config import DataAugmentationConfig
 from src import constants
 from src.datasets import CellPainting
-from src.helpler import load
+from src.helper import load
 from src.transformations.cloome import _transform
 
 
