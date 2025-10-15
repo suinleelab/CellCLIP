@@ -2,7 +2,7 @@
 
 This repository provides code and instructions to reproduce the results presented in our work on **CellCLIP**, NeurIPS 2025. The proposed framework aligns Cell Painting image embeddings with perturbation-level textual descriptions, enabling biologically meaningful representations for downstream retrieval and matching tasks.
 
-[paper](https://arxiv.org/pdf/2506.06290)
+[[paper](https://arxiv.org/pdf/2506.06290)]
 
 ---
 
