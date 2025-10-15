@@ -1,10 +1,9 @@
-# CellCLIP - Learning Perturbation Effects in Cell Painting via Text-Guided Contrastive Learning
+# [CellCLIP - Learning Perturbation Effects in Cell Painting via Text-Guided Contrastive Learning](https://arxiv.org/pdf/2506.06290)(NeurIPS 2025)
 
-This repository provides code and instructions to reproduce the results presented in our work on **CellCLIP**, NeurIPS 2025. The proposed framework aligns Cell Painting image embeddings with perturbation-level textual descriptions, enabling biologically meaningful representations for downstream retrieval and matching tasks.
-
-[[paper](https://arxiv.org/pdf/2506.06290)]
+This repository provides code and instructions to reproduce the results presented in our work on **CellCLIP**. The proposed framework aligns Cell Painting image embeddings with perturbation-level textual descriptions, enabling biologically meaningful representations for downstream retrieval and matching tasks.
 
 ---
+[Mingyu Lu](https://mingyu-lu.github.io/), [Ethan Weinberger](https://ethanweinberger.com/), [Chanwoo Kim](https://chanwoo.kim/), Su-In Lee
 
 ### Update 8/11 - Pretrained CellCLIP (w DINOv2-giant) on Hugging Face
 
