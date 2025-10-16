@@ -6,7 +6,10 @@ This repository provides code and instructions to reproduce the results presente
 By [Mingyu Lu](https://mingyu-lu.github.io/), [Ethan Weinberger](https://ethanweinberger.com/), [Chanwoo Kim](https://chanwoo.kim/), [Su-In Lee](https://aims.cs.washington.edu/su-in-lee)
 
 [![arXiv](https://img.shields.io/badge/arXiv-2506.06290-b31b1b.svg)](https://arxiv.org/abs/2506.06290)
-[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Model-yellow.svg)]([https://huggingface.co/your-org/CellCLIP](https://huggingface.co/suinleelab/CellCLIP))
+[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Model-yellow.svg)](https://huggingface.co/suinleelab/CellCLIP)
+[![Website](https://img.shields.io/badge/🌐%20Project%20Page-Online-blue.svg)](https://q8888620002.github.io/CellCLIP-website/)
+
+![Overview Figure](fig.png)
 
 ### Update 8/11 - Pretrained CellCLIP (w DINOv2-giant) on Hugging Face
 
