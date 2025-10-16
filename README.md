@@ -9,7 +9,7 @@ By [Mingyu Lu](https://mingyu-lu.github.io/), [Ethan Weinberger](https://ethanwe
 [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Model-yellow.svg)](https://huggingface.co/suinleelab/CellCLIP)
 [![Website](https://img.shields.io/badge/🌐%20Project%20Page-Online-blue.svg)](https://q8888620002.github.io/CellCLIP-website/)
 
-![Overview Figure](fig.png)
+![Overview Figure](fig.jpg)
 
 ### Update 8/11 - Pretrained CellCLIP (w DINOv2-giant) on Hugging Face
 
