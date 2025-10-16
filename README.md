@@ -11,9 +11,7 @@ By [Mingyu Lu](https://mingyu-lu.github.io/), [Ethan Weinberger](https://ethanwe
 
 ![Overview Figure](fig.jpg)
 
-### Update 8/11 - Pretrained CellCLIP (w DINOv2-giant) on Hugging Face
-
-We now provide a pretrained **CellCLIP** model on Hugging Face:[suinleelab/CellCLIP](https://huggingface.co/suinleelab/CellCLIP)
+#### [Update 8/11 - We now provide a pretrained **CellCLIP** checkpoint with DINOv2-giant on [Hugging Face](https://huggingface.co/suinleelab/CellCLIP)]
 
 ### Usage Example
 
