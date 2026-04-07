@@ -117,8 +117,8 @@ python preprocessing/convert_npz_to_avg_emb.py \
   --model_card facebook/dino-vitb8 \  # Feature extractor to generate embeddings
   --dataset bray2017 \
   --input_dir path_to_dataset \
-  --aggregation_strategy mean \       # Aggregation method (e.g., mean, attention)
-  --n_crop 1 \                        # Number of crops per image
+  --aggregation_strategy attention \  # Preprocess instances for different pooling mechanisms (e.g., attention-based pooling in CellCLIP or mean pooling for baseline comparison)
+  --n_crop 1 \                        # Number of crops per image/instances
   --output_file dino-vitb8_ind.h5     # Output file path
 
 ```
